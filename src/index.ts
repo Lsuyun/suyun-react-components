@@ -6,3 +6,4 @@
  * @Description:
  */
 export { default as Foo } from './Foo';
+export { default as TreeSelect } from './TreeSelect';

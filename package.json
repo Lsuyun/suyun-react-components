@@ -2,6 +2,8 @@
   "private": false,
   "name": "suyun-react-components",
   "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/Lsuyun/suyun-react-components/",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -13,8 +15,12 @@
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build"
   },
-  "module": "es/index.js",
-  "typings": "es/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -27,13 +33,17 @@
     ]
   },
   "dependencies": {
-    "@suyun-react-components/Test": "../es/Test",
     "antd": "^4.18.5",
-    "react": "^16.12.0 || ^17.0.0"
+    "react": "^16.12.0 || ^17.0.0",
+    "react-dom": "^17.0.2",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
+    "@types/react-dnd-html5-backend": "^3.0.2",
+    "babel-plugin-import": "^1.13.3",
     "@types/jest": "^27.0.3",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
