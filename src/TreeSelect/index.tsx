@@ -2,14 +2,14 @@
  * @Author: liusuyun
  * @Date: 2022-01-26 15:50:35
  * @LastEditors: liusuyun
- * @LastEditTime: 2022-01-26 22:55:00
+ * @LastEditTime: 2022-01-27 17:40:00
  * @Description:基于react的Tree插件封装的树搜索组件
  */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Tree, Input } from 'antd';
 import lodash from 'lodash';
-import { arrNotequal, getAllParentN, getTreeData, getFlatArr } from '@/utils/index';
 import { useDebounce } from '@/utils/hooks';
+import { arrNotequal, getAllParentN, getTreeData, getFlatArr } from '@/utils/index';
 // import { useDebounce } from '@umijs/hooks';
 
 /**

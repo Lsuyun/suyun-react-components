@@ -1,5 +1,5 @@
 import React from 'react';
-import { TreeSelect } from 'suyun-react-components';
+import { TreeSelect } from 'sy-react-components';
 
 const TreeSelectDemo: React.FC = () => {
   const fieldNames = {

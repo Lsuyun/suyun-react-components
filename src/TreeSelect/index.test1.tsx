@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TreeSelect } from 'suyun-react-components';
-import { PlusCircleFilled, MinusCircleFilled } from '@ant-design/icons';
+import { TreeSelect } from 'sy-react-components';
+import { PlusCircleFilled } from '@ant-design/icons';
 
 const TreeSelectDemo: React.FC = () => {
   const fieldNames = {
