@@ -2,7 +2,7 @@
  * @Author: liusuyun
  * @Date: 2022-01-26 15:50:35
  * @LastEditors: liusuyun
- * @LastEditTime: 2022-01-27 17:40:00
+ * @LastEditTime: 2022-02-09 16:48:12
  * @Description:基于react的Tree插件封装的树搜索组件
  */
 import React, { useState, useEffect, useMemo } from 'react';
@@ -20,7 +20,7 @@ import { arrNotequal, getAllParentN, getTreeData, getFlatArr } from '@/utils/ind
 export interface Props {
   [propName: string]: any;
 }
-const TreeSelect: React.FC<Props> = (props) => {
+const TreeSearch: React.FC<Props> = (props) => {
   const {
     treeData = [],
     checkable = false,
@@ -203,29 +203,31 @@ const TreeSelect: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Input
-        placeholder="搜索"
-        onChange={(e) => onChange(e)}
-        value={searchV}
-        style={{ width: '80%', marginBottom: '20px' }}
-      />
-      {showTreeD.length ? (
-        <Tree
-          onCheck={handleCheck}
-          checkedKeys={checkedKeys}
-          onSelect={handleSelect}
-          checkable={checkable}
-          checkStrictly={checkStrictly}
-          blockNode
-          defaultExpandAll
-          treeData={showTreeD}
-        >
-          {/* {renderNode(showTreeD)} */}
-        </Tree>
-      ) : (
-        ''
-      )}
+      <div style={{ background: '#fff' }}>
+        <Input
+          placeholder="搜索"
+          onChange={(e) => onChange(e)}
+          value={searchV}
+          style={{ width: '80%', marginBottom: '20px' }}
+        />
+        {showTreeD.length ? (
+          <Tree
+            onCheck={handleCheck}
+            checkedKeys={checkedKeys}
+            onSelect={handleSelect}
+            checkable={checkable}
+            checkStrictly={checkStrictly}
+            blockNode
+            defaultExpandAll
+            treeData={showTreeD}
+          >
+            {/* {renderNode(showTreeD)} */}
+          </Tree>
+        ) : (
+          ''
+        )}
+      </div>
     </>
   );
 };
-export default React.memo(TreeSelect);
+export default React.memo(TreeSearch);

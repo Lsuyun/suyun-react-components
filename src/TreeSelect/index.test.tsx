@@ -1,5 +1,5 @@
 import React from 'react';
-import { TreeSelect } from 'sy-react-components';
+import { TreeSearch } from 'sy-react-components';
 
 const TreeSelectDemo: React.FC = () => {
   const fieldNames = {
@@ -32,7 +32,7 @@ const TreeSelectDemo: React.FC = () => {
   ];
   return (
     <>
-      <TreeSelect treeData={treeData} fieldNames={fieldNames} parentId={0} />
+      <TreeSearch treeData={treeData} fieldNames={fieldNames} parentId={0} />
     </>
   );
 };

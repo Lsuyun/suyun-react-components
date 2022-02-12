@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TreeSelect } from 'sy-react-components';
+import { TreeSearch } from 'sy-react-components';
 import { PlusCircleFilled } from '@ant-design/icons';
 
 const TreeSelectDemo: React.FC = () => {
@@ -54,7 +54,7 @@ const TreeSelectDemo: React.FC = () => {
   }, []);
   return (
     <>
-      <TreeSelect treeData={treeData} isSelfRender={true} fieldNames={fieldNames} parentId={0} />
+      <TreeSearch treeData={treeData} isSelfRender={true} fieldNames={fieldNames} parentId={0} />
     </>
   );
 };
