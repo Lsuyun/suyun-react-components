@@ -1,9 +1,7 @@
 import React from 'react';
 import { CopyButton } from 'sy-react-components';
-import { Tooltip } from 'antd';
-import type { CopyButtonType } from './typing';
 
-const CopyButtonTest: React.FC<CopyButtonType> = () => {
+const CopyButtonTest: React.FC = () => {
   const copyParams = {
     request: () => {
       return new Promise((resolve, reject) => {

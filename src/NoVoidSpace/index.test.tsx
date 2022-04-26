@@ -1,10 +1,3 @@
-/*
- * @Author: liusuyun
- * @Date: 2022-04-25 18:06:29
- * @LastEditors: liusuyun
- * @LastEditTime: 2022-04-25 19:14:22
- * @Description:
- */
 import React from 'react';
 import { NoVoidSpace } from 'sy-react-components';
 
