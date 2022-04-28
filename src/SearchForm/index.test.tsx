@@ -7,14 +7,20 @@ const SearchFormDemo: React.FC = () => {
   const formConfig = {
     form: form,
     gutter: [16, 16],
-    colSpan: 6,
+    // colSpan: 6,
     resetText: '重置',
     searchText: '查询',
+    buttonColSpan: 12,
+    showNumber: 6,
     searchColumns: [
       {
-        label: '选择框',
+        label: <div>23124</div>,
         dataIndex: 'select',
-        formItemProps: {},
+        formItemProps: {
+          colSpan: {
+            xxl: { span: 12 },
+          },
+        },
         itemProps: {},
         type: 'select',
       },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import lodash from 'lodash';
+// import lodash from 'lodash';
 // import { useDispatch } from 'dva';
 import copy from 'copy-to-clipboard';
 
@@ -28,14 +28,14 @@ const CopyButton: React.FC<CopyButtonType> = (props) => {
     addonAfter = null,
     addonBefore = null,
   } = props;
-  const filterProps = lodash.omit(props, [
-    'copyText',
-    'request',
-    'loadingRender',
-    'successRender',
-    'failRender',
-    'render',
-  ]);
+  // const filterProps = lodash.omit(props, [
+  //   'copyText',
+  //   'request',
+  //   'loadingRender',
+  //   'successRender',
+  //   'failRender',
+  //   'render',
+  // ]);
 
   // const dispatch = useDispatch();
 

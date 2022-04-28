@@ -2,7 +2,7 @@
  * @Author: liusuyun
  * @Date: 2022-04-26 11:00:37
  * @LastEditors: liusuyun
- * @LastEditTime: 2022-04-26 18:51:04
+ * @LastEditTime: 2022-04-28 21:29:07
  * @Description:声明式form表单
  */
 import React, { useEffect, useState } from 'react';
@@ -18,8 +18,11 @@ import {
   Radio,
   Switch,
   DatePicker,
+  ConfigProvider,
 } from 'antd';
 import lodash from 'lodash';
+import zhCN from 'antd/es/locale/zh_CN';
+import type { SearchFormType } from './typing';
 
 const defaultFormConfig = {
   autoComplete: 'off',
@@ -29,92 +32,23 @@ const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const inputPlaceholder = '请输入';
 const selectPlaceholder = '请选择';
-const SearchForm: React.FC<Record<string, any>> = (props) => {
+const SearchForm: React.FC<SearchFormType> = (props) => {
   const [formR] = Form.useForm();
   const [buttonSpan, setButtonSpan] = useState(24);
   const {
     form = formR,
     gutter = [16, 16],
-    colSpan = 6,
+    colSpan = {
+      xxl: { span: 6 },
+      lg: { span: 12 },
+      xl: { span: 8 },
+      md: { span: 12 },
+      sm: { span: 24 },
+      xs: { span: 24 },
+    },
     resetText = '重置',
     searchText = '查询',
-    searchColumns = [
-      {
-        label: '选择框',
-        dataIndex: 'select',
-        formItemProps: {},
-        itemProps: {},
-        type: 'select',
-      },
-      {
-        label: '输入框',
-        dataIndex: 'input',
-        formItemProps: {},
-        itemProps: {},
-      },
-      {
-        label: '数字输入框',
-        dataIndex: 'inputNumber',
-        formItemProps: {},
-        itemProps: {},
-        type: 'inputNumber',
-      },
-      {
-        label: '单选框',
-        dataIndex: 'radio',
-        formItemProps: {},
-        itemProps: {
-          options: [
-            { label: '1234', value: 1 },
-            { label: '122', value: 2 },
-            { label: '123', value: 3 },
-            { label: '124', value: 4 },
-            { label: '125', value: 5 },
-            { label: '126', value: 6 },
-            { label: '127', value: 7 },
-          ],
-        },
-        type: 'radio',
-      },
-      {
-        label: '复选框',
-        dataIndex: 'checkbox',
-        formItemProps: {},
-        itemProps: {
-          options: [
-            { label: '1234', value: 1 },
-            { label: '122', value: 2 },
-            { label: '123', value: 3 },
-            { label: '124', value: 4 },
-            { label: '125', value: 5 },
-            { label: '126', value: 6 },
-            { label: '127', value: 7 },
-          ],
-        },
-        type: 'checkbox',
-      },
-      {
-        label: '时间选择框',
-        dataIndex: 'datePicker',
-        formItemProps: {},
-        itemProps: {},
-        type: 'datePicker',
-      },
-      {
-        label: '时间区间选择框',
-        dataIndex: 'rangePicker',
-        formItemProps: {},
-        itemProps: {},
-        type: 'rangePicker',
-      },
-      {
-        label: '时间区间选择框',
-        dataIndex: 'rangePicker1',
-        formItemProps: {},
-        itemProps: {},
-        type: 'rangePicker',
-      },
-    ],
+    searchColumns = [],
     onReset = (value: Record<string, any>) => {
       console.log('reset', value);
     },
@@ -191,20 +125,41 @@ const SearchForm: React.FC<Record<string, any>> = (props) => {
   const onFinishR = (values: Record<string, any>) => {
     let finishValue = values;
     searchColumns.forEach((ele: Record<string, any>) => {
-      if (ele.type === 'rangePicker' && ele.transform) {
+      if (ele.type === 'rangePicker') {
         let valueFormat = ele?.itemProps?.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
+
         if (ele?.itemProps?.valueFormat) {
           valueFormat = ele?.itemProps?.valueFormat;
         }
-        let newValues = [
-          values[ele.dataIndex][0].format(valueFormat),
-          values[ele.dataIndex][1].format(valueFormat),
-        ];
-        let dataIndexObj = ele.transform(newValues);
-        for (let key in dataIndexObj) {
-          finishValue[key] = dataIndexObj[key];
+        let newValues: any = [null, null];
+        if (values[ele.dataIndex]) {
+          newValues = [
+            values[ele.dataIndex][0].format(valueFormat),
+            values[ele.dataIndex][1].format(valueFormat),
+          ];
+          finishValue[ele.dataIndex] = newValues;
+        } else {
+          finishValue[ele.dataIndex] = null;
         }
-        finishValue = lodash.omit(finishValue, [ele.dataIndex]);
+
+        if (ele.transform) {
+          let dataIndexObj = ele.transform(newValues);
+          for (let key in dataIndexObj) {
+            finishValue[key] = dataIndexObj[key];
+          }
+          finishValue = lodash.omit(finishValue, [ele.dataIndex]);
+        }
+      }
+      if (ele.type === 'datePicker') {
+        let valueFormat = ele?.itemProps?.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
+
+        if (ele?.itemProps?.valueFormat) {
+          valueFormat = ele?.itemProps?.valueFormat;
+        }
+
+        finishValue[ele.dataIndex] = values[ele.dataIndex]
+          ? values[ele.dataIndex].format(valueFormat)
+          : null;
       }
     });
     onFinish?.(finishValue);
@@ -230,48 +185,60 @@ const SearchForm: React.FC<Record<string, any>> = (props) => {
   }, []);
   return (
     <>
-      <Form
-        {...defaultFormConfig}
-        labelAlign="left"
-        layout="inline"
-        form={form}
-        onFinish={onFinishR}
-      >
-        <Row gutter={gutter || [16, 16]}>
-          {searchColumns
-            ? searchColumns.map((data: any, index: number) => (
-                <>
-                  {data.hide ? null : (
-                    <Col span={data?.formItemProps.colSpan || colSpan}>
-                      <FormItem
-                        {...data.formItemProps}
-                        name={data.dataIndex}
-                        label={data.label}
-                        key={data.dataIndex}
+      <ConfigProvider locale={zhCN}>
+        <Form
+          {...defaultFormConfig}
+          labelAlign="left"
+          layout="inline"
+          form={form}
+          onFinish={onFinishR}
+        >
+          <Row gutter={gutter || [16, 16]} wrap={true}>
+            {searchColumns
+              ? searchColumns.map((data: any, index: number) => (
+                  <>
+                    {data.hide ? null : (
+                      <Col
+                        lg={{ ...colSpan.lg, ...data?.formItemProps?.colSpan?.lg }}
+                        xl={{ ...colSpan.xl, ...data?.formItemProps?.colSpan?.xl }}
+                        sm={{ ...colSpan.sm, ...data?.formItemProps?.colSpan?.sm }}
+                        md={{ ...colSpan.md, ...data?.formItemProps?.colSpan?.md }}
+                        xs={{ ...colSpan.xs, ...data?.formItemProps?.colSpan?.xs }}
+                        xxl={{
+                          ...colSpan.xxl,
+                          ...data?.formItemProps?.colSpan?.xxl,
+                        }}
                       >
-                        {data.render ? data.render() : renderFormItems(data)}
-                      </FormItem>
-                    </Col>
-                  )}
-                </>
-              ))
-            : null}
-          <Col span={buttonSpan} style={{ textAlign: 'right' }}>
-            <Button
-              style={{ marginRight: '16px' }}
-              onClick={() => {
-                form.resetFields();
-                onReset?.();
-              }}
-            >
-              {resetText || '重置'}
-            </Button>
-            <Button type="primary" htmlType="submit">
-              {searchText || '查询'}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+                        <FormItem
+                          {...data.formItemProps}
+                          name={data.dataIndex}
+                          label={data.label}
+                          key={data.dataIndex}
+                        >
+                          {data.render ? data.render() : renderFormItems(data)}
+                        </FormItem>
+                      </Col>
+                    )}
+                  </>
+                ))
+              : null}
+            <Col span={24} style={{ textAlign: 'right' }}>
+              <Button
+                style={{ marginRight: '16px' }}
+                onClick={() => {
+                  form.resetFields();
+                  onReset?.();
+                }}
+              >
+                {resetText}
+              </Button>
+              <Button type="primary" htmlType="submit" style={{ marginRight: '16px' }}>
+                {searchText}
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </ConfigProvider>
     </>
   );
 };

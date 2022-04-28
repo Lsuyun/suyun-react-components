@@ -2,11 +2,11 @@
  * @Author: liusuyun
  * @Date: 2022-01-27 19:32:37
  * @LastEditors: liusuyun
- * @LastEditTime: 2022-04-25 10:21:13
+ * @LastEditTime: 2022-04-28 12:12:06
  * @Description:
  */
 import React, { useEffect } from 'react';
-import { TreeSearch } from 'sy-react-components';
+import { TreeSearch } from '../index';
 
 const TreeSelectDemo: React.FC = () => {
   const fieldNames = {
